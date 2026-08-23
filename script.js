@@ -234,21 +234,39 @@ function draw() {
     }
 }
 
-function loop() {
-    update();
-    draw();
-    if (!isGameOver) {
-        requestAnimationFrame(loop);
+let gameStarted = false;
+
+// Baguhin ang click event para sa start
+canvas.addEventListener("click", function() {
+    if (!gameStarted && !isGameOver) {
+        gameStarted = true;
+        loop();
+    } else {
+        flap();
     }
-}
+});
+
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!gameStarted && !isGameOver) {
+            gameStarted = true;
+            loop();
+        } else {
+            flap();
+        }
+    }
+});
 
 fetchLeaderboard();
 
-draw();
+// Initial draw screen
+ctx.fillStyle = "#70c5ce";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = "#fff";
 ctx.font = "bold 20px Arial";
 ctx.textAlign = "center";
-ctx.fillText("I-click para magsimula", canvas.width / 2, canvas.height / 2);
+ctx.fillText("Click to start", canvas.width / 2, canvas.height / 2);
 ctx.textAlign = "left";
