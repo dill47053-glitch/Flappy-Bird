@@ -1,4 +1,4 @@
-// Iyong Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCB7Ar-Tsj67jlRUxuBgKn8c91y9Cd_rRs",
   authDomain: "flappy-bird-5afd3.firebaseapp.com",
@@ -71,7 +71,7 @@ function resetGame() {
     isWaitingForName = false;
 }
 
-// Kunin ang Top 5 scores mula sa Firebase Firestore
+// Fetch Top 5 scores from Firebase Firestore
 async function fetchLeaderboard() {
     try {
         const snapshot = await db.collection("leaderboard")
@@ -88,7 +88,7 @@ async function fetchLeaderboard() {
     }
 }
 
-// I-save ang score sa Firebase
+// Save score to Firebase
 async function saveScoreToFirebase(name, finalScore) {
     if (!name.trim()) return;
     try {
@@ -156,7 +156,7 @@ function triggerGameOver() {
     isWaitingForName = true;
     
     setTimeout(() => {
-        let inputName = prompt("Natapos ang laro! Ilagay ang iyong pangalan para sa Global Leaderboard:", "Player");
+        let inputName = prompt("Game Over! Enter your name for the Global Leaderboard:", "Player");
         if (inputName) {
             playerName = inputName;
             saveScoreToFirebase(playerName, score);
@@ -200,40 +200,40 @@ function draw() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         ctx.fillStyle = "#f1c40f";
-        ctx.font = "bold 22px Arial";
+        ctx.font = "bold 26px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("GAME OVER", canvas.width / 2, 45);
+        ctx.fillText("GAME OVER", canvas.width / 2, 60);
 
         ctx.fillStyle = "#fff";
-        ctx.font = "14px Arial";
-        ctx.fillText("Iyong Score: " + score, canvas.width / 2, 75);
+        ctx.font = "16px Arial";
+        ctx.fillText("Your Score: " + score, canvas.width / 2, 95);
 
         ctx.fillStyle = "#e67e22";
-        ctx.font = "bold 15px Arial";
-        ctx.fillText("🌍 GLOBAL LEADERBOARD", canvas.width / 2, 110);
+        ctx.font = "bold 18px Arial";
+        ctx.fillText("🌍 GLOBAL LEADERBOARD", canvas.width / 2, 145);
 
-        ctx.font = "13px Arial";
+        ctx.font = "15px Arial";
         ctx.fillStyle = "#fff";
-        let startY = 135;
+        let startY = 180;
         if (globalLeaderboard.length === 0) {
-            ctx.fillText("Kinukuha ang scores...", canvas.width / 2, startY + 20);
+            ctx.fillText("Loading scores...", canvas.width / 2, startY + 20);
         } else {
             for (let j = 0; j < globalLeaderboard.length; j++) {
                 let entry = globalLeaderboard[j];
                 ctx.fillText(`${j + 1}. ${entry.name} - ${entry.score}`, canvas.width / 2, startY);
-                startY += 22;
+                startY += 30;
             }
         }
 
         ctx.fillStyle = "#f1c40f";
-        ctx.font = "13px Arial";
-        ctx.fillText("I-click para umulit", canvas.width / 2, 435);
+        ctx.font = "15px Arial";
+        ctx.fillText("Click to restart", canvas.width / 2, 550);
         
         ctx.textAlign = "left";
     }
 }
 
-// Awtomatikong patakbuhin ang game loop pag-load ng page
+// Automatically run the game loop
 function loop() {
     update();
     draw();

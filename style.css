@@ -13,15 +13,15 @@ body {
 .game-container {
     text-align: center;
     background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
 }
 
 h1 {
-    font-size: 22px;
-    margin-bottom: 12px;
+    font-size: 26px;
+    margin-bottom: 15px;
     color: #f1c40f;
     letter-spacing: 1px;
 }
@@ -29,15 +29,15 @@ h1 {
 canvas {
     border: 4px solid #fff;
     background-color: #70c5ce;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     cursor: pointer;
     display: block;
     margin: 0 auto;
 }
 
 p {
-    font-size: 13px;
-    margin-top: 12px;
+    font-size: 14px;
+    margin-top: 15px;
     color: #bdc3c7;
 }
