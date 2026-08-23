@@ -16,12 +16,16 @@ const db = firebase.firestore();
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Bird variables
+// --- LOAD BIRD CHARACTER IMAGE ---
+const birdImg = new Image();
+birdImg.src = "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/yellowbird-midflap.png";
+
+// Bird variables (Dito mo pwedeng baguhin ang width at height kung gusto mo itong palakihin/paliitin)
 let bird = {
     x: 50,
     y: 200,
-    width: 30,
-    height: 30,
+    width: 34,
+    height: 24,
     gravity: 0.6,
     lift: -9.5,
     velocity: 0
@@ -170,15 +174,14 @@ function triggerGameOver() {
     }, 100);
 }
 
-// Game Loop: Draw graphics, Mario-style pipes, character, and leaderboard
+// Game Loop: Draw graphics, Mario-style pipes, character image, and leaderboard
 function draw() {
     // Classic Mario sky blue background
     ctx.fillStyle = "#5c94fc";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Mario-style green pipes with borders and lip caps
+    // Draw Mario-style green pipes
     for (let i = 0; i < pipes.length; i++) {
-        // Main pipe body (Bright Mario Green)
         ctx.fillStyle = "#00aa00";
         ctx.strokeStyle = "#000000";
         ctx.lineWidth = 3;
@@ -186,7 +189,6 @@ function draw() {
         // Top Pipe
         ctx.fillRect(pipes[i].x, 0, pipeWidth, pipes[i].top);
         ctx.strokeRect(pipes[i].x, 0, pipeWidth, pipes[i].top);
-        // Pipe Lip Top
         ctx.fillStyle = "#00cc00";
         ctx.fillRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
@@ -195,64 +197,22 @@ function draw() {
         ctx.fillStyle = "#00aa00";
         ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom, pipeWidth, pipes[i].bottom);
         ctx.strokeRect(pipes[i].x, canvas.height - pipes[i].bottom, pipeWidth, pipes[i].bottom);
-        // Pipe Lip Bottom
         ctx.fillStyle = "#00cc00";
         ctx.fillRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
     }
 
-    // Draw character
+    // --- DRAW THE REAL BIRD CHARACTER IMAGE ---
     ctx.save();
     ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
     
     let rotation = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity / 10)));
     ctx.rotate(rotation);
 
-    // Bird body
-    ctx.fillStyle = "#f1c40f";
-    ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(0, 0, bird.width / 1.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-
-    // Bird belly
-    ctx.fillStyle = "#f9e79f";
-    ctx.beginPath();
-    ctx.arc(4, 3, bird.width / 2.2, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Bird beak
-    ctx.fillStyle = "#e67e22";
-    ctx.beginPath();
-    ctx.moveTo(bird.width / 2 - 2, -4);
-    ctx.lineTo(bird.width / 2 + 10, 1);
-    ctx.lineTo(bird.width / 2 - 2, 6);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-
-    // Bird eye
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(6, -6, 5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = "#000";
-    ctx.beginPath();
-    ctx.arc(7, -6, 2, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Bird wing
-    ctx.fillStyle = "#f39c12";
-    ctx.beginPath();
-    ctx.ellipse(-4, 4, 8, 5, Math.PI / 6, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-
+    ctx.drawImage(birdImg, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
+    
     ctx.restore();
+    // ------------------------------------------
 
     // Score display (Retro style)
     ctx.fillStyle = "#fff";
