@@ -180,7 +180,7 @@ function draw() {
     ctx.fillStyle = "#5c94fc";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Mario-style green pipes with Gold Coin tops
+    // Draw Mario-style green pipes with Gold Coins
     for (let i = 0; i < pipes.length; i++) {
         // Main pipe body (Bright Mario Green)
         ctx.fillStyle = "#00aa00";
@@ -194,8 +194,7 @@ function draw() {
         ctx.fillRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
 
-        
-        // Top Pipe Lip (Gold Coin / Mystery Block Style)
+        // Top Pipe Lip (Gold Style)
         ctx.fillStyle = "#f1c40f";
         ctx.fillRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
@@ -212,11 +211,14 @@ function draw() {
         ctx.fillRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
         
-        // --- DRAW MARIO GOLD COINS IN THE MIDDLE OF THE GAP ---
+        // Bottom gold highlight line
+        ctx.fillStyle = "#f39c12";
+        ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom + 5, pipeWidth, 4);
+
+        // Draw Gold Coin in the middle of the gap
         let coinX = pipes[i].x + pipeWidth / 2;
         let coinY = pipes[i].top + pipeGap / 2;
 
-        // Outer gold circle
         ctx.fillStyle = "#f1c40f";
         ctx.strokeStyle = "#d35400";
         ctx.lineWidth = 3;
@@ -225,25 +227,18 @@ function draw() {
         ctx.fill();
         ctx.stroke();
 
-        // Inner coin reflection / detail
         ctx.fillStyle = "#f39c12";
         ctx.beginPath();
         ctx.arc(coinX, coinY, 10, 0, Math.PI * 2);
         ctx.fill();
 
-        // Dollar sign or shine on coin
         ctx.fillStyle = "#fff";
         ctx.font = "bold 16px 'Courier New'";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("$", coinX, coinY);
-        ctx.textAlign = "left"; // Ibalik sa dati
+        ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
-    }
-
-        // Bottom gold highlight line
-        ctx.fillStyle = "#f39c12";
-        ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom + 5, pipeWidth, 4);
     }
 
     // Draw the real bird character image
