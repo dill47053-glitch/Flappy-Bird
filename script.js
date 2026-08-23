@@ -69,7 +69,6 @@ function resetGame() {
     frameCount = 0;
     isGameOver = false;
     isWaitingForName = false;
-    loop();
 }
 
 // Kunin ang Top 5 scores mula sa Firebase Firestore
@@ -234,39 +233,12 @@ function draw() {
     }
 }
 
-let gameStarted = false;
-
-// Baguhin ang click event para sa start
-canvas.addEventListener("click", function() {
-    if (!gameStarted && !isGameOver) {
-        gameStarted = true;
-        loop();
-    } else {
-        flap();
-    }
-});
-
-document.addEventListener("keydown", function(e) {
-    if (e.code === "Space") {
-        e.preventDefault();
-        if (!gameStarted && !isGameOver) {
-            gameStarted = true;
-            loop();
-        } else {
-            flap();
-        }
-    }
-});
+// Awtomatikong patakbuhin ang game loop pag-load ng page
+function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
 
 fetchLeaderboard();
-
-// Initial draw screen
-ctx.fillStyle = "#70c5ce";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = "#fff";
-ctx.font = "bold 20px Arial";
-ctx.textAlign = "center";
-ctx.fillText("Click to start", canvas.width / 2, canvas.height / 2);
-ctx.textAlign = "left";
+loop();
