@@ -16,11 +16,11 @@ const db = firebase.firestore();
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// --- LOAD BIRD CHARACTER IMAGE ---
+// Load bird character image sprite
 const birdImg = new Image();
 birdImg.src = "https://raw.githubusercontent.com/samuelcust/flappy-bird-assets/master/sprites/yellowbird-midflap.png";
 
-// Bird variables (Dito mo pwedeng baguhin ang width at height kung gusto mo itong palakihin/paliitin)
+// Bird variables
 let bird = {
     x: 50,
     y: 200,
@@ -174,35 +174,48 @@ function triggerGameOver() {
     }, 100);
 }
 
-// Game Loop: Draw graphics, Mario-style pipes, character image, and leaderboard
+// Game Loop: Draw graphics, Mario-style pipes with gold coin tops, character image, and leaderboard
 function draw() {
     // Classic Mario sky blue background
     ctx.fillStyle = "#5c94fc";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Mario-style green pipes
+    // Draw Mario-style green pipes with Gold Coin tops
     for (let i = 0; i < pipes.length; i++) {
+        // Main pipe body (Bright Mario Green)
         ctx.fillStyle = "#00aa00";
         ctx.strokeStyle = "#000000";
         ctx.lineWidth = 3;
 
-        // Top Pipe
+        // Top Pipe Body
         ctx.fillRect(pipes[i].x, 0, pipeWidth, pipes[i].top);
         ctx.strokeRect(pipes[i].x, 0, pipeWidth, pipes[i].top);
-        ctx.fillStyle = "#00cc00";
+        
+        // Top Pipe Lip (Gold Coin / Mystery Block Style)
+        ctx.fillStyle = "#f1c40f";
         ctx.fillRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, pipes[i].top - 25, pipeWidth + 8, 25);
+        
+        // Gold highlight line
+        ctx.fillStyle = "#f39c12";
+        ctx.fillRect(pipes[i].x, pipes[i].top - 20, pipeWidth, 4);
 
-        // Bottom Pipe
+        // Bottom Pipe Body
         ctx.fillStyle = "#00aa00";
         ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom, pipeWidth, pipes[i].bottom);
         ctx.strokeRect(pipes[i].x, canvas.height - pipes[i].bottom, pipeWidth, pipes[i].bottom);
-        ctx.fillStyle = "#00cc00";
+        
+        // Bottom Pipe Lip (Gold Style)
+        ctx.fillStyle = "#f1c40f";
         ctx.fillRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
         ctx.strokeRect(pipes[i].x - 4, canvas.height - pipes[i].bottom, pipeWidth + 8, 25);
+        
+        // Bottom gold highlight line
+        ctx.fillStyle = "#f39c12";
+        ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom + 5, pipeWidth, 4);
     }
 
-    // --- DRAW THE REAL BIRD CHARACTER IMAGE ---
+    // Draw the real bird character image
     ctx.save();
     ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
     
@@ -212,7 +225,6 @@ function draw() {
     ctx.drawImage(birdImg, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
     
     ctx.restore();
-    // ------------------------------------------
 
     // Score display (Retro style)
     ctx.fillStyle = "#fff";
